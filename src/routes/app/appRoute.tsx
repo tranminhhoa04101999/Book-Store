@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import AllBook from "@/views/AllBook/AllBook";
 import loadable from "@loadable/component";
 
 const Dashboard = loadable(() => import("@/views/dashboard/Dashboard"), {
@@ -9,8 +10,12 @@ const appRoute = () => {
   return [
     {
       path: "/",
-      element: <Dashboard />,
+      element: <Dashboard />
     },
+    {
+      path: "/all",
+      element: <AllBook />
+    }
   ];
 };
 

@@ -2,7 +2,22 @@
 export default {
   content: ["./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        background: "#fff",
+        backgroundHeader: "#f9f8f6",
+        btnBlack: "#252525"
+      },
+      animation: {
+        hoverBottom: 'hoverBottom 1s ease-in-out infinite'
+      },
+      keyframes: {
+        hoverBottom: {
+          '0%': {transform: '-translate-x-full'},
+          '100%' : {transform: 'translate-x-full'}
+        }
+      }
+    },
   },
   plugins: [
     require("tailwind-bootstrap-grid")({

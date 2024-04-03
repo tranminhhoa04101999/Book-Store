@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import i18n from "./i18n/i18n";
 import LayoutWrapper from "./layouts/LayoutWrapper";
+import Header from "./views/header/Header";
 
 const App = () => {
   const [antdLocale, setAntdLocale] = useState(enUS);
@@ -16,6 +17,7 @@ const App = () => {
     <div id="app">
       <ConfigProvider locale={antdLocale}>
         <LayoutWrapper>
+          <Header />
           <Outlet />
         </LayoutWrapper>
       </ConfigProvider>
