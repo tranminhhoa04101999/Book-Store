@@ -9,12 +9,12 @@ export default {
         btnBlack: "#252525"
       },
       animation: {
-        hoverBottom: 'hoverBottom 1s ease-in-out infinite'
+        hoverCard: 'hoverCard 0.5s ease-in-out'
       },
       keyframes: {
-        hoverBottom: {
-          '0%': {transform: '-translate-x-full'},
-          '100%' : {transform: 'translate-x-full'}
+        hoverCard: {
+          '0% 100%': {transform: 'rotate(0deg)'},
+          '50%' : {transform: 'rotate(3deg)'}
         }
       }
     },

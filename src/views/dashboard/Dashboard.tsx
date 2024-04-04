@@ -5,18 +5,24 @@ import { useEffect, useState } from "react";
 import { BsFillBrushFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../navigationBar/NavigationBar";
+import Loading from "@/components/Loading/Loading";
 
 const Dashboard = () => {
   const [bestSeller, setBestSeller] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const [limit, setlimit] = useState<number>(5);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     async function searchRandomFive() {
-      let res = await API.app.searchRandomFive();
+      setLoading(true);
+      let res = await API.app.searchBook("", limit, 0);
       let data: any = res.data;
       console.log(data.docs);
       if (res !== null && data !== null) {
         setBestSeller(data.docs);
+        setLoading(false);
       }
     }
 
@@ -37,7 +43,7 @@ const Dashboard = () => {
               <BsFillBrushFill className="inline-block" />{" "}
               <div className="inline-block">Find Your</div>
             </div>
-            <div className="text-8xl font-bold">Next Book</div>
+            <div className="text-8xl font-bold ">Next Book</div>
             <div className="text-xl mt-8">
               Our most popular and trending MH Bookstore perfect
             </div>
@@ -83,15 +89,21 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="grid grid-cols-5 px-10 mt-10">
-            {bestSeller !== null &&
+            {bestSeller !== null && !loading ? (
               bestSeller.map((e: any, index: any) => (
                 <Card
                   key={index}
                   name={e.title_sort}
                   author={e.author_name}
                   coverI={e.cover_i}
+                  heightCard="h-80"
                 />
-              ))}
+              ))
+            ) : (
+              <div>
+                <Loading />
+              </div>
+            )}
           </div>
         </div>
       </div>
