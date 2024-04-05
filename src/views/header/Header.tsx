@@ -1,6 +1,6 @@
 import { ContextContainer } from "@/App";
 import { useContext, useState } from "react";
-import { FaCartArrowDown, FaRegHeart, FaSearch, FaUser } from "react-icons/fa";
+import { FaRegHeart, FaSearch, FaUser } from "react-icons/fa";
 import { FaBookSkull } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
@@ -9,11 +9,11 @@ const Header = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
 
-  const handlerChangeInput = (event: any) => {
+  const handlerChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
-  const handlerEnter = (event: any) => {
+  const handlerEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       navigate("/all");
       setSearchText(search);

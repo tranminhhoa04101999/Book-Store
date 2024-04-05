@@ -1,34 +1,29 @@
+import { ContextContainer } from "@/App";
+import { LIMIT_BOOK_IN_PAGE } from "@/Common/common";
 import Card from "@/components/Card/Card";
 import LabelCategory from "@/components/LabelCategory/LabelCategory";
-import API from "@/libs/api";
-import { useContext, useEffect, useState } from "react";
-import { Pagination } from "antd";
-import type { PaginationProps } from "antd";
 import Loading from "@/components/Loading/Loading";
-import { ContextContainer } from "@/App";
+import { Book, Search } from "@/interface/Book";
+import API from "@/libs/api";
+import type { PaginationProps } from "antd";
+import { Pagination } from "antd";
+import { useContext, useEffect, useRef, useState } from "react";
 
-type Book = {
-  title_sort: string;
-  author_name: string;
-  cover_i: string;
-};
-
-const AllBook = (props: any) => {
+const AllBook = () => {
   const [AllBook, setAllBook] = useState<Book[]>([]);
   const [offset, setOffset] = useState<number>();
   const [currPage, setCurrPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const { searchText } = useContext(ContextContainer);
-  const [limit, setLimit] = useState<number>(16);
+  const searchTextRef = useRef("");
 
   useEffect(() => {
     async function fetch() {
       setLoading(true);
-      let res = await API.app.searchBook(searchText, limit, 0);
-      let data: any = res.data;
+      const res = await API.app.searchBook("", LIMIT_BOOK_IN_PAGE, 0);
+      const data: Search = res.data;
       if (res !== null && data !== null) {
         setAllBook(data.docs);
-        console.log(data.docs);
         setLoading(false);
       }
     }
@@ -38,9 +33,13 @@ const AllBook = (props: any) => {
   useEffect(() => {
     async function fetch(offset: number | undefined) {
       setLoading(true);
-      let res = await API.app.searchBook(searchText, limit, offset);
+      const res = await API.app.searchBook(
+        searchTextRef.current,
+        LIMIT_BOOK_IN_PAGE,
+        offset
+      );
 
-      let data: any = res.data;
+      const data: Search = res.data;
       if (res !== null && data !== null) {
         setAllBook(data.docs);
         setLoading(false);
@@ -54,15 +53,13 @@ const AllBook = (props: any) => {
       setLoading(true);
       setOffset(0);
       setCurrPage(1);
-      console.log(searchText);
+      searchTextRef.current = searchText;
 
-      let res = await API.app.searchBook(searchText, limit, offset);
+      const res = await API.app.searchBook(searchText, LIMIT_BOOK_IN_PAGE, 0);
 
-      let data: any = res.data;
+      const data: Search = res.data;
       if (res !== null && data !== null) {
         setAllBook(data.docs);
-        console.log(data.docs);
-
         setLoading(false);
       }
     }
@@ -102,7 +99,7 @@ const AllBook = (props: any) => {
           </div>
           <div className="grid grid-cols-4">
             {AllBook !== null && !loading ? (
-              AllBook.map((e: any, index: number) => (
+              AllBook.map((e: Book, index: number) => (
                 <div className="mb-4">
                   <Card
                     key={index}

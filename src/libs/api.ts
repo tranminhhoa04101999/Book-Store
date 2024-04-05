@@ -1,5 +1,5 @@
+import { Search } from "@/interface/Book";
 import axios, { AxiosResponse } from "axios";
-import { url } from "inspector";
 
 const API = {
   apiInstance: axios.create({
@@ -15,22 +15,18 @@ const API = {
 
   API_PATH: {
     APP: {
-      LOGIN: "/example/login",
       SEARCH_BOOK: (query: string, limit: number, offset: number | undefined) =>
         `https://openlibrary.org/search.json?${query}&limit=${limit}&offset=${offset}`,
     },
   },
   app: {
-    login: (): Promise<AxiosResponse<void>> => {
-      return API.apiInstance.post(API.API_PATH.APP.LOGIN);
-    },
     searchBook: (
       query: string,
       limit: number,
       offset: number | undefined
-    ): Promise<AxiosResponse<void>> => {
-      let checkQuery = query.trim() === "" ? "q=random" : "title=" + query;
-      return API.apiInstance.get(
+    ): Promise<AxiosResponse<Search>> => {
+      const checkQuery = query === "" ? "q=random" : "title=" + query;
+      return API.apiInstance.get<Search>(
         API.API_PATH.APP.SEARCH_BOOK(checkQuery, limit, offset)
       );
     },

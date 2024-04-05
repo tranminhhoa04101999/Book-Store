@@ -20,7 +20,7 @@
    - ES Lint (\*)
    - Code Spell Checker (\*)
    - Tailwind CSS IntelliSense
-   - Sort JSON object 
+   - Sort JSON object
    - JSON to TS
 3. Install pnpm globally `npm i -g pnpm`
    - Windows users, run `pnpm setup`

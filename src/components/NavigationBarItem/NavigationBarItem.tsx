@@ -1,9 +1,14 @@
 import { FaShop } from "react-icons/fa6";
 
-const NavigationBarItem = (props: any) => {
+type NavigationBarItemProps = {
+  icon: string;
+  title: string;
+};
+
+const NavigationBarItem = (props: NavigationBarItemProps) => {
   return (
     <div className="flex flex-row mx-12 hover:cursor-pointer">
-      {props.icon && (
+      {props.icon !== "" && (
         <div className="content-center">
           <FaShop className=" mr-2 text-2xl" />
         </div>

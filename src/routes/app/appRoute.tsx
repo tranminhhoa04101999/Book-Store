@@ -10,12 +10,12 @@ const appRoute = () => {
   return [
     {
       path: "/",
-      element: <Dashboard />
+      element: <Dashboard />,
     },
     {
       path: "/all",
-      element: <AllBook />
-    }
+      element: <AllBook />,
+    },
   ];
 };
 

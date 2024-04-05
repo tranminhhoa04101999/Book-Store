@@ -6,17 +6,17 @@ export default {
       colors: {
         background: "#fff",
         backgroundHeader: "#f9f8f6",
-        btnBlack: "#252525"
+        btnBlack: "#252525",
       },
       animation: {
-        hoverCard: 'hoverCard 0.5s ease-in-out'
+        hoverCard: "hoverCard 0.5s ease-in-out",
       },
       keyframes: {
         hoverCard: {
-          '0% 100%': {transform: 'rotate(0deg)'},
-          '50%' : {transform: 'rotate(3deg)'}
-        }
-      }
+          "0% 100%": { transform: "rotate(0deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+      },
     },
   },
   plugins: [

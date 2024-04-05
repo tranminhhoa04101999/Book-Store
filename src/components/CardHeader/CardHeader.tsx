@@ -1,4 +1,11 @@
-const CardHeader = (props: any) => {
+type CardHeaderProps = {
+  name: string;
+  author: string;
+  url: string;
+  isReverse: boolean;
+};
+
+const CardHeader = (props: CardHeaderProps) => {
   return (
     <>
       {props.isReverse ? (

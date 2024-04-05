@@ -6,19 +6,20 @@ import { BsFillBrushFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import NavigationBar from "../navigationBar/NavigationBar";
 import Loading from "@/components/Loading/Loading";
+import { Book, Search } from "@/interface/Book";
+import { LIMIT_BOOK_IN_HOME } from "@/Common/common";
 
 const Dashboard = () => {
-  const [bestSeller, setBestSeller] = useState<any>([]);
+  const [bestSeller, setBestSeller] = useState<Book[]>([]);
   const [loading, setLoading] = useState(false);
-  const [limit, setlimit] = useState<number>(5);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     async function searchRandomFive() {
       setLoading(true);
-      let res = await API.app.searchBook("", limit, 0);
-      let data: any = res.data;
+      const res = await API.app.searchBook("", LIMIT_BOOK_IN_HOME, 0);
+      const data: Search = res.data;
       console.log(data.docs);
       if (res !== null && data !== null) {
         setBestSeller(data.docs);
@@ -59,6 +60,7 @@ const Dashboard = () => {
               name="The Stranger"
               author="Alber Camus"
               url="https://images.booksense.com/images/151/086/9798424086151.jpg"
+              isReverse={false}
             />
             <CardHeader
               name="Der Process"
@@ -70,6 +72,7 @@ const Dashboard = () => {
               name="The Trial"
               author="Franz Kafka"
               url="https://images.booksense.com/images/296/260/9782382260296.jpg"
+              isReverse={false}
             />
           </div>
         </div>
@@ -90,7 +93,7 @@ const Dashboard = () => {
           </div>
           <div className="grid grid-cols-5 px-10 mt-10">
             {bestSeller !== null && !loading ? (
-              bestSeller.map((e: any, index: any) => (
+              bestSeller.map((e: Book, index: number) => (
                 <Card
                   key={index}
                   name={e.title_sort}

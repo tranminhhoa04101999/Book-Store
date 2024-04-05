@@ -1,12 +1,20 @@
 import { ConfigProvider } from "antd";
 import enUS from "antd/es/locale/en_US";
-import { useEffect, useState, useContext, createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import i18n from "./i18n/i18n";
 import LayoutWrapper from "./layouts/LayoutWrapper";
 import Header from "./views/header/Header";
 
-export const ContextContainer = createContext<any>({});
+type ContextType = {
+  searchText: string;
+  setSearchText: (c: string) => void;
+};
+
+export const ContextContainer = createContext<ContextType>({
+  searchText: "",
+  setSearchText: () => {},
+});
 
 const App = () => {
   const [antdLocale, setAntdLocale] = useState(enUS);

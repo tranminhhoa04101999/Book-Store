@@ -1,4 +1,8 @@
-const LabelCategory = (props: any) => {
+type LabelCategoryProps = {
+  title: string;
+};
+
+const LabelCategory = (props: LabelCategoryProps) => {
   return (
     <div className="group border-b-2 pl-6 py-2 relative hover:cursor-pointer">
       {props.title}
