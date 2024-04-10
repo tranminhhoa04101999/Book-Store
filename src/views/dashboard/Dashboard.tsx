@@ -7,7 +7,7 @@ import { RootState } from "@/redux/store";
 import { useEffect } from "react";
 import { BsFillBrushFill } from "react-icons/bs";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, createSearchParams } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 
 const Dashboard = () => {
@@ -18,12 +18,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(
-      getBookInAPI({ query: "", limit: LIMIT_BOOK_IN_HOME, currPage: 1 })
+      getBookInAPI({ query: "random", limit: LIMIT_BOOK_IN_HOME, currPage: 1 })
     );
   }, [dispatch]);
 
   const handlerClickViewAll = () => {
-    navigate("/all");
+    navigate({
+      pathname: "all",
+      search: createSearchParams({
+        q: "random",
+        page: "1",
+      }).toString(),
+    });
   };
 
   return (

@@ -12,9 +12,9 @@ declare global {
   }
   interface SearchReq {
     Body: {
-      query: string;
+      query: string | null;
       limit: number;
-      currPage: number;
+      currPage: number | null;
     };
   }
   interface BookData {

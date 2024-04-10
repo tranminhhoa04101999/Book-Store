@@ -14,17 +14,21 @@ const API = {
 
   API_PATH: {
     APP: {
-      SEARCH_BOOK: (query: string, limit: number, currPage: number) =>
+      SEARCH_BOOK: (
+        query: string | null,
+        limit: number,
+        currPage: number | null
+      ) =>
         `https://openlibrary.org/search.json?${query}&limit=${limit}&page=${currPage}`,
     },
   },
   app: {
     searchBook: (
-      query: string,
+      query: string | null,
       limit: number,
-      currPage: number
+      currPage: number | null
     ): Promise<AxiosResponse<SearchRes["Search"]>> => {
-      const checkQuery = query === "" ? "q=random" : "title=" + query;
+      const checkQuery = query === "random" ? "q=random" : "title=" + query;
       return API.apiInstance.get<SearchRes["Search"]>(
         API.API_PATH.APP.SEARCH_BOOK(checkQuery, limit, currPage)
       );

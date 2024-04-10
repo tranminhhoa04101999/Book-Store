@@ -2,31 +2,34 @@ import { LIMIT_BOOK_IN_PAGE } from "@/Utils/Constants";
 import Card from "@/components/Card/Card";
 import LabelCategory from "@/components/LabelCategory/LabelCategory";
 import Loading from "@/components/Loading/Loading";
-import { getBookInAPI, setCurrPage } from "@/redux/slices/appSlice";
+import { getBookInAPI } from "@/redux/slices/appSlice";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import type { PaginationProps } from "antd";
 import { Pagination } from "antd";
 import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const AllBook = () => {
   const dispatch = useAppDispatch();
   const arrBook = useAppSelector((state: RootState) => state.app.books);
   const loading = useAppSelector((state: RootState) => state.app.loading);
-  const searchText = useAppSelector((state: RootState) => state.app.searchText);
-  const currPage = useAppSelector((state: RootState) => state.app.currPage);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     dispatch(
       getBookInAPI({
-        query: searchText,
+        query: searchParams.get("q"),
         limit: LIMIT_BOOK_IN_PAGE,
-        currPage: currPage,
+        currPage: Number(searchParams.get("page")),
       })
     );
-  }, [dispatch, currPage, searchText]);
+  }, [dispatch, searchParams]);
 
   const onShowSizeChange: PaginationProps["onShowSizeChange"] = (current) => {
-    dispatch(setCurrPage(current));
+    setSearchParams({
+      q: searchParams.get("q") as string,
+      page: current.toString(),
+    });
   };
 
   return (
@@ -45,7 +48,7 @@ const AllBook = () => {
           <div className="mb-6 ml-4">
             <Pagination
               defaultCurrent={1}
-              current={currPage}
+              current={Number(searchParams.get("page"))}
               total={72}
               pageSizeOptions={[16]}
               showSizeChanger={false}

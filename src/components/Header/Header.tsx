@@ -1,14 +1,13 @@
-import { setSearchText } from "@/redux/slices/appSlice";
-import { useAppDispatch } from "@/redux/store";
+import { RootState, useAppSelector } from "@/redux/store";
 import { useState } from "react";
 import { FaRegHeart, FaSearch, FaUser } from "react-icons/fa";
 import { FaBookSkull } from "react-icons/fa6";
-import { useNavigate } from "react-router-dom";
+import { createSearchParams, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const currPage = useAppSelector((state: RootState) => state.app.currPage);
 
   const handlerChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -16,8 +15,14 @@ const Header = () => {
 
   const handlerEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      navigate("/all");
-      dispatch(setSearchText(search));
+      const searchParam = search.trim() === "" ? "random" : search;
+      navigate({
+        pathname: "all",
+        search: createSearchParams({
+          q: searchParam,
+          page: currPage.toString(),
+        }).toString(),
+      });
     }
   };
   const handlerClickHome = () => {
