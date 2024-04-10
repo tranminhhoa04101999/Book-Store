@@ -1,4 +1,3 @@
-import { Search } from "@/interface/Book";
 import axios, { AxiosResponse } from "axios";
 
 const API = {
@@ -15,19 +14,19 @@ const API = {
 
   API_PATH: {
     APP: {
-      SEARCH_BOOK: (query: string, limit: number, offset: number | undefined) =>
-        `https://openlibrary.org/search.json?${query}&limit=${limit}&offset=${offset}`,
+      SEARCH_BOOK: (query: string, limit: number, currPage: number) =>
+        `https://openlibrary.org/search.json?${query}&limit=${limit}&page=${currPage}`,
     },
   },
   app: {
     searchBook: (
       query: string,
       limit: number,
-      offset: number | undefined
-    ): Promise<AxiosResponse<Search>> => {
+      currPage: number
+    ): Promise<AxiosResponse<SearchRes["Search"]>> => {
       const checkQuery = query === "" ? "q=random" : "title=" + query;
-      return API.apiInstance.get<Search>(
-        API.API_PATH.APP.SEARCH_BOOK(checkQuery, limit, offset)
+      return API.apiInstance.get<SearchRes["Search"]>(
+        API.API_PATH.APP.SEARCH_BOOK(checkQuery, limit, currPage)
       );
     },
   },

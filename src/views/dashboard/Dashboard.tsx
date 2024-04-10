@@ -1,34 +1,26 @@
+import { LIMIT_BOOK_IN_HOME } from "@/Utils/Constants";
 import Card from "@/components/Card/Card";
 import CardHeader from "@/components/CardHeader/CardHeader";
-import API from "@/libs/api";
-import { useEffect, useState } from "react";
-import { BsFillBrushFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
-import NavigationBar from "../navigationBar/NavigationBar";
 import Loading from "@/components/Loading/Loading";
-import { Book, Search } from "@/interface/Book";
-import { LIMIT_BOOK_IN_HOME } from "@/Common/common";
+import { getBookInAPI } from "@/redux/slices/appSlice";
+import { RootState } from "@/redux/store";
+import { useEffect } from "react";
+import { BsFillBrushFill } from "react-icons/bs";
+import { useAppSelector, useAppDispatch } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
+import NavigationBar from "../../components/NavigationBar/NavigationBar";
 
 const Dashboard = () => {
-  const [bestSeller, setBestSeller] = useState<Book[]>([]);
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const arrBook = useAppSelector((state: RootState) => state.app.books);
+  const loading = useAppSelector((state: RootState) => state.app.loading);
 
   useEffect(() => {
-    async function searchRandomFive() {
-      setLoading(true);
-      const res = await API.app.searchBook("", LIMIT_BOOK_IN_HOME, 0);
-      const data: Search = res.data;
-      console.log(data.docs);
-      if (res !== null && data !== null) {
-        setBestSeller(data.docs);
-        setLoading(false);
-      }
-    }
-
-    searchRandomFive();
-  }, []);
+    dispatch(
+      getBookInAPI({ query: "", limit: LIMIT_BOOK_IN_HOME, currPage: 1 })
+    );
+  }, [dispatch]);
 
   const handlerClickViewAll = () => {
     navigate("/all");
@@ -92,8 +84,8 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="grid grid-cols-5 px-10 mt-10">
-            {bestSeller !== null && !loading ? (
-              bestSeller.map((e: Book, index: number) => (
+            {arrBook !== null && !loading ? (
+              arrBook.map((e: SearchRes["Book"], index: number) => (
                 <Card
                   key={index}
                   name={e.title_sort}

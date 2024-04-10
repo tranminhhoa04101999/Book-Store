@@ -1,77 +1,32 @@
-import { ContextContainer } from "@/App";
-import { LIMIT_BOOK_IN_PAGE } from "@/Common/common";
+import { LIMIT_BOOK_IN_PAGE } from "@/Utils/Constants";
 import Card from "@/components/Card/Card";
 import LabelCategory from "@/components/LabelCategory/LabelCategory";
 import Loading from "@/components/Loading/Loading";
-import { Book, Search } from "@/interface/Book";
-import API from "@/libs/api";
+import { getBookInAPI, setCurrPage } from "@/redux/slices/appSlice";
+import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import type { PaginationProps } from "antd";
 import { Pagination } from "antd";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
 const AllBook = () => {
-  const [AllBook, setAllBook] = useState<Book[]>([]);
-  const [offset, setOffset] = useState<number>();
-  const [currPage, setCurrPage] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
-  const { searchText } = useContext(ContextContainer);
-  const searchTextRef = useRef("");
+  const dispatch = useAppDispatch();
+  const arrBook = useAppSelector((state: RootState) => state.app.books);
+  const loading = useAppSelector((state: RootState) => state.app.loading);
+  const searchText = useAppSelector((state: RootState) => state.app.searchText);
+  const currPage = useAppSelector((state: RootState) => state.app.currPage);
 
   useEffect(() => {
-    async function fetch() {
-      setLoading(true);
-      const res = await API.app.searchBook("", LIMIT_BOOK_IN_PAGE, 0);
-      const data: Search = res.data;
-      if (res !== null && data !== null) {
-        setAllBook(data.docs);
-        setLoading(false);
-      }
-    }
-    fetch();
-  }, []);
+    dispatch(
+      getBookInAPI({
+        query: searchText,
+        limit: LIMIT_BOOK_IN_PAGE,
+        currPage: currPage,
+      })
+    );
+  }, [dispatch, currPage, searchText]);
 
-  useEffect(() => {
-    async function fetch(offset: number | undefined) {
-      setLoading(true);
-      const res = await API.app.searchBook(
-        searchTextRef.current,
-        LIMIT_BOOK_IN_PAGE,
-        offset
-      );
-
-      const data: Search = res.data;
-      if (res !== null && data !== null) {
-        setAllBook(data.docs);
-        setLoading(false);
-      }
-    }
-    fetch(offset);
-  }, [offset]);
-
-  useEffect(() => {
-    async function fetch() {
-      setLoading(true);
-      setOffset(0);
-      setCurrPage(1);
-      searchTextRef.current = searchText;
-
-      const res = await API.app.searchBook(searchText, LIMIT_BOOK_IN_PAGE, 0);
-
-      const data: Search = res.data;
-      if (res !== null && data !== null) {
-        setAllBook(data.docs);
-        setLoading(false);
-      }
-    }
-    fetch();
-  }, [searchText]);
-
-  const onShowSizeChange: PaginationProps["onShowSizeChange"] = (
-    current,
-    pageSize
-  ) => {
-    setCurrPage(current);
-    setOffset((current - 1) * pageSize);
+  const onShowSizeChange: PaginationProps["onShowSizeChange"] = (current) => {
+    dispatch(setCurrPage(current));
   };
 
   return (
@@ -93,13 +48,14 @@ const AllBook = () => {
               current={currPage}
               total={72}
               pageSizeOptions={[16]}
+              showSizeChanger={false}
               defaultPageSize={16}
               onChange={onShowSizeChange}
             />
           </div>
           <div className="grid grid-cols-4">
-            {AllBook !== null && !loading ? (
-              AllBook.map((e: Book, index: number) => (
+            {arrBook !== null && !loading ? (
+              arrBook.map((e: SearchRes["Book"], index: number) => (
                 <div className="mb-4">
                   <Card
                     key={index}

@@ -4,7 +4,9 @@ import { createContext, useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import i18n from "./i18n/i18n";
 import LayoutWrapper from "./layouts/LayoutWrapper";
-import Header from "./views/header/Header";
+import Header from "./components/Header/Header";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 type ContextType = {
   searchText: string;
@@ -30,10 +32,12 @@ const App = () => {
         <ContextContainer.Provider
           value={{ searchText: searchText, setSearchText: setSearchText }}
         >
-          <LayoutWrapper>
-            <Header />
-            <Outlet />
-          </LayoutWrapper>
+          <Provider store={store}>
+            <LayoutWrapper>
+              <Header />
+              <Outlet />
+            </LayoutWrapper>
+          </Provider>
         </ContextContainer.Provider>
       </ConfigProvider>
     </div>

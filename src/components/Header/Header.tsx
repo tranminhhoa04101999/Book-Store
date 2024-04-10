@@ -1,13 +1,14 @@
-import { ContextContainer } from "@/App";
-import { useContext, useState } from "react";
+import { setSearchText } from "@/redux/slices/appSlice";
+import { useAppDispatch } from "@/redux/store";
+import { useState } from "react";
 import { FaRegHeart, FaSearch, FaUser } from "react-icons/fa";
 import { FaBookSkull } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const { setSearchText } = useContext(ContextContainer);
   const [search, setSearch] = useState("");
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handlerChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -16,7 +17,7 @@ const Header = () => {
   const handlerEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       navigate("/all");
-      setSearchText(search);
+      dispatch(setSearchText(search));
     }
   };
   const handlerClickHome = () => {

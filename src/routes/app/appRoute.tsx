@@ -2,7 +2,7 @@
 import AllBook from "@/views/AllBook/AllBook";
 import loadable from "@loadable/component";
 
-const Dashboard = loadable(() => import("@/views/dashboard/Dashboard"), {
+const Dashboard = loadable(() => import("@/views/Dashboard/Dashboard"), {
   fallback: <h1>Loading</h1>,
 });
 
