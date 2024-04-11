@@ -1,8 +1,8 @@
-import { LIMIT_BOOK_IN_PAGE } from "@/Utils/Constants";
+import { ARR_CATEGORY, LIMIT_BOOK_IN_PAGE } from "@/Utils/Constants";
 import Card from "@/components/Card/Card";
 import LabelCategory from "@/components/LabelCategory/LabelCategory";
 import Loading from "@/components/Loading/Loading";
-import { getBookInAPI } from "@/redux/slices/appSlice";
+import { getBookInAPI, getBookWithSub } from "@/redux/slices/appSlice";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import type { PaginationProps } from "antd";
 import { Pagination } from "antd";
@@ -16,19 +16,38 @@ const AllBook = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    dispatch(
-      getBookInAPI({
-        query: searchParams.get("q"),
-        limit: LIMIT_BOOK_IN_PAGE,
-        currPage: Number(searchParams.get("page")),
-      })
-    );
+    if (searchParams.get("sub") === "all") {
+      dispatch(
+        getBookInAPI({
+          query: searchParams.get("q"),
+          limit: LIMIT_BOOK_IN_PAGE,
+          currPage: Number(searchParams.get("page")),
+        })
+      );
+    } else {
+      dispatch(
+        getBookWithSub({
+          subject: searchParams.get("sub") as string,
+          limit: LIMIT_BOOK_IN_PAGE,
+          currPage: Number(searchParams.get("page")),
+        })
+      );
+    }
   }, [dispatch, searchParams]);
 
   const onShowSizeChange: PaginationProps["onShowSizeChange"] = (current) => {
     setSearchParams({
       q: searchParams.get("q") as string,
       page: current.toString(),
+      sub: searchParams.get("sub") as string,
+    });
+  };
+
+  const handlerOnlick = (p: { label: string }) => {
+    setSearchParams({
+      q: "random",
+      page: "1",
+      sub: p.label.toLowerCase(),
     });
   };
 
@@ -39,9 +58,19 @@ const AllBook = () => {
         <div className="col-span-1">
           <div className="text-base font-bold">
             <div className="text-xl border-b-2 p-2">Category</div>
-            <LabelCategory title="Horrified" />
-            <LabelCategory title="romantic" />
-            <LabelCategory title="love" />
+            {ARR_CATEGORY.map((e: Category) => {
+              let isActive = false;
+              if (e.label.toLowerCase() === searchParams.get("sub")) {
+                isActive = true;
+              }
+              return (
+                <LabelCategory
+                  title={e.label}
+                  onClick={() => handlerOnlick({ label: e.label })}
+                  isActive={isActive}
+                />
+              );
+            })}
           </div>
         </div>
         <div className="col-span-7">

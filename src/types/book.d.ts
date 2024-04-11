@@ -9,6 +9,9 @@ declare global {
       numFoundExact: boolean;
       docs: Book[];
     };
+    SearchSub: {
+      works: Book[];
+    };
   }
   interface SearchReq {
     Body: {
@@ -16,11 +19,19 @@ declare global {
       limit: number;
       currPage: number | null;
     };
+    BodySub: {
+      subject: string;
+      limit: number;
+      currPage: number;
+    };
   }
   interface BookData {
     searchText: string;
     currPage: number;
     books: SearchRes["Book"][];
     loading: boolean;
+  }
+  interface Category {
+    label: string;
   }
 }

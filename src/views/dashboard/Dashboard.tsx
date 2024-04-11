@@ -28,6 +28,7 @@ const Dashboard = () => {
       search: createSearchParams({
         q: "random",
         page: "1",
+        sub: "all",
       }).toString(),
     });
   };

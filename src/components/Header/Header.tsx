@@ -21,6 +21,7 @@ const Header = () => {
         search: createSearchParams({
           q: searchParam,
           page: currPage.toString(),
+          sub: "all",
         }).toString(),
       });
     }
