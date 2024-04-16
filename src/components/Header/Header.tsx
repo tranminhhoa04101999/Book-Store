@@ -30,7 +30,7 @@ const Header = () => {
     navigate("/");
   };
   return (
-    <div className="grid grid-cols-4 p-4 bg-backgroundHeader fixed top-0 w-full shadow">
+    <div className="grid grid-cols-4 p-4 bg-backgroundHeader fixed top-0 w-full shadow h-[--height-header] z-10">
       <div className="flex flex-row text-2xl">
         <FaBookSkull className="" />
         <span

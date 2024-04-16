@@ -17,6 +17,9 @@ export default {
           "50%": { transform: "rotate(3deg)" },
         },
       },
+      height: {
+        header: "65px",
+      },
     },
   },
   plugins: [

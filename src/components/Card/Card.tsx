@@ -8,6 +8,7 @@ type CardProps = {
   heightCard: string;
   name: string;
   author: string;
+  onClick: () => void;
 };
 
 const Card = (props: CardProps) => {
@@ -31,7 +32,10 @@ const Card = (props: CardProps) => {
   }, [props.coverI]);
 
   return (
-    <div className="flex flex-col overflow-hidden rounded-lg mx-6 shadow-lg  hover:animate-hoverCard border-2 hover:cursor-pointer">
+    <div
+      className="flex flex-col overflow-hidden rounded-lg mx-6 shadow-lg  hover:animate-hoverCard border-2 hover:cursor-pointer"
+      onClick={props.onClick}
+    >
       {loading ? (
         <div
           className={`w-full ${props.heightCard} rounded-lg flex  justify-center items-center bg-gray-100`}

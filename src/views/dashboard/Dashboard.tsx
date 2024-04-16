@@ -32,10 +32,21 @@ const Dashboard = () => {
       }).toString(),
     });
   };
+  const handlerOnlickDetail = (p: { key: string; author_name: string }) => {
+    // get the key work
+    const id = p.key.slice(p.key.lastIndexOf("/") + 1, p.key.length);
+    navigate({
+      pathname: "book",
+      search: createSearchParams({
+        id: id,
+        name: p.author_name,
+      }).toString(),
+    });
+  };
 
   return (
-    <div className="h-screen bg-white">
-      <div className="py-20">
+    <div className=" bg-white">
+      <div className="pb-20 pt-[--header-height]">
         <NavigationBar />
         <div className="bg-backgroundHeader mb-4 py-8 px-32 grid grid-cols-5">
           <div className="flex flex-col col-span-2">
@@ -96,9 +107,15 @@ const Dashboard = () => {
                 <Card
                   key={index}
                   name={e.title_sort}
-                  author={e.author_name}
+                  author={e.author_name[0]}
                   coverI={e.cover_i}
                   heightCard="h-80"
+                  onClick={() =>
+                    handlerOnlickDetail({
+                      key: e.key,
+                      author_name: e.author_name[0],
+                    })
+                  }
                 />
               ))
             ) : (

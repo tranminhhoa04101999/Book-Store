@@ -20,6 +20,10 @@ const API = {
         `https://covers.openlibrary.org/b/id/${coverI}-M.jpg`,
       SEARCH_BOOK_WITH_SUB: (subject: string, limit: number, offset: number) =>
         `https://openlibrary.org/subjects/${subject}.json?limit=${limit}&offset=${offset}`,
+      SEARCH_BOOK_DETAIL: (id: string) =>
+        `https://openlibrary.org/works/${id}.json`,
+      SEARCH_BOOK_WITH_AUTHOR: (author: string) =>
+        `https://openlibrary.org/search.json?author=${author}&limit=5`,
     },
   },
   app: {
@@ -44,6 +48,14 @@ const API = {
       const offset = (currPage - 1) * limit;
       return API.apiInstance.get<SearchRes["SearchSub"]>(
         API.API_PATH.APP.SEARCH_BOOK_WITH_SUB(subject, limit, offset)
+      );
+    },
+    searchBookDetails: (id: string): Promise<AxiosResponse> => {
+      return API.apiInstance.get(API.API_PATH.APP.SEARCH_BOOK_DETAIL(id));
+    },
+    searchBookWithAuthor: (author: string): Promise<AxiosResponse> => {
+      return API.apiInstance.get(
+        API.API_PATH.APP.SEARCH_BOOK_WITH_AUTHOR(author)
       );
     },
   },

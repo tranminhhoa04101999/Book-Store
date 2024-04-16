@@ -7,6 +7,10 @@
   src: url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 }
 
+:root {
+  --header-height: 65px;
+}
+
 ::-webkit-scrollbar {
   width: 10px;
 }

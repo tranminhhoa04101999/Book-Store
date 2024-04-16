@@ -7,6 +7,7 @@ import LayoutWrapper from "./layouts/LayoutWrapper";
 import Header from "./components/Header/Header";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import Footer from "./components/Footer/Footer";
 
 type ContextType = {
   searchText: string;
@@ -36,6 +37,7 @@ const App = () => {
             <LayoutWrapper>
               <Header />
               <Outlet />
+              <Footer />
             </LayoutWrapper>
           </Provider>
         </ContextContainer.Provider>
