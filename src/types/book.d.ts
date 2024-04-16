@@ -25,6 +25,8 @@ declare global {
       subject_times: string[];
       timeToString: string;
       covers: number[];
+      subject_places: string[];
+      placesToString: string;
     };
   }
   interface SearchReq {

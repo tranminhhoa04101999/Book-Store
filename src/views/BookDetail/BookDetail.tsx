@@ -1,15 +1,15 @@
+import Card from "@/components/Card/Card";
 import API from "@/libs/api";
 import { getBookDetails, getBookWithAuthor } from "@/redux/slices/appSlice";
 import { RootState, useAppDispatch, useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
+import { FaShareSquare } from "react-icons/fa";
+import { LuLoader2 } from "react-icons/lu";
 import {
   createSearchParams,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { LuLoader2 } from "react-icons/lu";
-import Card from "@/components/Card/Card";
-import Loading from "@/components/Loading/Loading";
 
 const BookDetail = () => {
   const [searchParams] = useSearchParams();
@@ -92,7 +92,25 @@ const BookDetail = () => {
                 <span className="font-bold">{bookDetails.timeToString}</span>
               </div>
               <div className="text-base mb-2">
-                Places: <span className="font-bold">English countryside</span>
+                Places:{" "}
+                <span className="font-bold">{bookDetails.placesToString}</span>
+              </div>
+              <div className="text-base mb-2 inline-block">
+                <div
+                  className="fb-share-button  hover:cursor-pointer border-2 px-4 py-1 rounded-md shadow-md"
+                  data-href="https://developers.facebook.com/docs/plugins/"
+                  data-layout=""
+                  data-size=""
+                >
+                  <a
+                    target="_blank"
+                    href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                    className="fb-xfbml-parse-ignore flex items-center"
+                  >
+                    <div className="font-bold mr-4">Share</div>
+                    <FaShareSquare className="text-red-500" />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -107,7 +125,8 @@ const BookDetail = () => {
           </div>
         </div>
         <div className="bg-backgroundHeader col-span-3 rounded-lg shadow-xl shadow-gray-300">
-          {arrBook !== null && arrBook.length > 0 ? (
+          {arrBook !== null &&
+            arrBook.length > 0 &&
             arrBook.map((e: SearchRes["Book"], index: number) => (
               <div className="my-4 mx-4">
                 <Card
@@ -124,12 +143,7 @@ const BookDetail = () => {
                   }
                 />
               </div>
-            ))
-          ) : (
-            <div>
-              <Loading />
-            </div>
-          )}
+            ))}
         </div>
       </div>
     </div>

@@ -59,8 +59,21 @@ const Card = (props: CardProps) => {
           {props.author}
         </div>
         <div className="flex justify-end content-center font-bold  mt-2  text-lg">
-          <div className="content-center hover:cursor-pointer">
-            <FaShareSquare className="text-red-500" />
+          <div className="content-center">
+            <div
+              className="fb-share-button  hover:cursor-pointer"
+              data-href="https://developers.facebook.com/docs/plugins/"
+              data-layout=""
+              data-size=""
+            >
+              <a
+                target="_blank"
+                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse"
+                className="fb-xfbml-parse-ignore"
+              >
+                <FaShareSquare className="text-red-500" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -14,6 +14,8 @@ const initialState: BookData = {
     subject_times: [],
     timeToString: "",
     covers: [7453818],
+    subject_places: [],
+    placesToString: "",
   },
 };
 
@@ -120,6 +122,12 @@ export const appSlice = createSlice({
 
       if (action.payload.covers !== undefined) {
         state.bookDetails.covers = action.payload.covers;
+      }
+
+      if (action.payload.subject_places !== undefined) {
+        state.bookDetails.subject_places = action.payload.subject_places;
+        state.bookDetails.placesToString =
+          action.payload.subject_places.join(", ");
       }
     });
 
